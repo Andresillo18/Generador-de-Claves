@@ -81,6 +81,7 @@ public class GenerarClave {
     //Método para generar la clave  
     public char[] unirCaracteres(char[] clave, int size) { // Al recibir un array debe incluirse los []
 
+        boolean noRepetido = true;
         Scanner respuesta = new Scanner(System.in);
         ThreadLocalRandom r = ThreadLocalRandom.current();
 
@@ -111,24 +112,75 @@ public class GenerarClave {
 
         //For para generar las letras minúsculas
         for (int i = 0; i < getLetrasMinusculas(); i++) {
-            setNumero(r.nextInt(97, 122));
-            clave[i] = (char) getNumero();
+            do {
+                setNumero(r.nextInt(97, 122));
+                for (int j = 0; j < getLetrasMinusculas(); j++) {
+                    if (clave[j] == (char) getNumero()) { //pregunta por cada index en el array si algún número generado se repite
+                        noRepetido = false;
+                        break; // Si hay uno que se repite se sale del for para que genere otro número random
+                    } else {
+                        noRepetido = true;
+                    }
+                }
+            } while (noRepetido == false); // Se sale hasta que no se repita
+
+            clave[i] = (char) getNumero(); // Se agrega si todo salió correctamente
         }
 
         //For para generar las mayúsculas, empieza a ingresar al array de donde quedo con las minúsculas hasta la cantidad de minúsculas y mayúsculas
         for (int i = getLetrasMinusculas(); i < (getLetrasMinusculas() + getLetrasMayusculas()); i++) {
-            setNumero(r.nextInt(65, 90));
+
+            noRepetido = true;
+            do {
+                setNumero(r.nextInt(65, 90));
+                for (int j = getLetrasMinusculas(); j < (getLetrasMinusculas() + getLetrasMayusculas()); j++) {
+                    if (clave[j] == (char) getNumero()) { //pregunta por cada index en el array si algún número generado se repite
+                        noRepetido = false;
+                        break; // Si hay uno que se repite se sale del for para que genere otro número random
+                    } else {
+                        noRepetido = true;
+                    }
+                }
+            } while (noRepetido == false); // Se sale hasta que no se repita
+
             clave[i] = (char) getNumero();
         }
 
         //For para generar los números para la clave, lo recorre hasta la cantidad de minúsculas, mayúsculas y los números a generar por el usuario
         for (int i = (getLetrasMinusculas() + getLetrasMayusculas()); i < (size - getCantidadSimbolos()); i++) {
-            setNumero(r.nextInt(48, 57));
+
+            noRepetido = true;
+            do {
+                setNumero(r.nextInt(48, 57));
+                for (int j = (getLetrasMinusculas() + getLetrasMayusculas()); j < (size - getCantidadSimbolos()); j++) {
+                    if (clave[j] == (char) getNumero()) { //pregunta por cada index en el array si algún número generado se repite
+                        noRepetido = false;
+                        break; // Si hay uno que se repite se sale del for para que genere otro número random
+                    } else {
+                        noRepetido = true;
+                    }
+                }
+            } while (noRepetido == false); // Se sale hasta que no se repita
+
             clave[i] = (char) getNumero();
         }
 
+        //For para los simbolos
         for (int i = (size - getCantidadSimbolos()); i < size; i++) {
-            setNumero(r.nextInt(33, 47));
+
+            noRepetido = true;
+            do {
+                setNumero(r.nextInt(33, 47));
+                for (int j = (size - getCantidadSimbolos()); j < size; j++) {
+                    if (clave[j] == (char) getNumero()) { //pregunta por cada index en el array si algún número generado se repite
+                        noRepetido = false;
+                        break; // Si hay uno que se repite se sale del for para que genere otro número random
+                    } else {
+                        noRepetido = true;
+                    }
+                }
+            } while (noRepetido == false); // Se sale hasta que no se repita
+
             clave[i] = (char) getNumero();
         }
 
